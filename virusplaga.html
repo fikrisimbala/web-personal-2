@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ucapan singkat</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-image: url(https://plus.unsplash.com/premium_photo-1673730193487-89ae5d321682?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGRhcmt8ZW58MHx8MHx8fDA%3D);
+        font-family: "Segoe UI", sans-serif;
+        height: 100vh;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 2.8em;
+        color: #ffffff;
+        margin-bottom: 20px;
+        animation: pulse 2s infinite;
+        z-index: 2;
+        text-align: center;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.08);
+          opacity: 0.85;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      button {
+        padding: 15px 30px;
+        background: #280eb8;
+        color: white;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 2;
+      }
+
+      button:hover {
+        background: #2f2a36;
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(226, 222, 222, 0.6);
+      }
+
+      #surat-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+        transition: opacity 1s ease, transform 0.8s ease;
+        z-index: 3;
+      }
+
+      #surat-container.show {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+      }
+
+      #surat-container img {
+        width: 320px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+      }
+
+      #isiSurat {
+        margin-top: 20px;
+        background: rgba(154, 172, 223, 0.95);
+        color: #222;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 80%;
+        text-align: center;
+        font-size: 1.1em;
+        box-shadow: 0 4px 16px rgba(236, 230, 230, 0.4);
+        display: none;
+      }
+
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="fireworks"></canvas>
+
+    <h1>Happy birthday bang morales</h1>
+    <button onclick="bukaSurat()">Klick disini sodara</button>
+
+    <div id="surat-container">
+      <p>Klik kucing ini</p>
+
+      <img
+        src="https://assets.telkomsel.com/public/2025-03/Meme-Kucing-Minta-Maaf.jpg?VersionId=tUJNqTMi24ZyaXcv_B7cs_rzdcpuamsc"
+        alt="................................."
+        onclick="tampilkanIsi()"
+      />
+      <div id="isiSurat">
+        <p>"For bang hilmi"</p>
+        <p>
+          Semoga panjang umur, kesehatan selalu, diberi rezeki yang luas, dan
+          selalu diberi kemudahan dalam menjalani sesuatu termasuk mencari
+          hotwheels F1 btw, maaf klo cuman bisa bikin risih dan sering nawarin
+          bantuan yang kesannya maksa sebenarnya sa cuman pengen berguna ji dan
+          pengen lebih dekat kalo bisa bantu kau
+        </p>
+        <p>
+          Selamat ulang tahun yang ke 16 dan selamat menjadi kelas 11, Teruslah
+          bersinar sampai mendapat medali osn buat orang tua tercinta dan untuk
+          man ic kota kendari. 🎇
+        </p>
+      </div>
+    </div>
+
+    <script>
+      function bukaSurat() {
+        const surat = document.getElementById("surat-container");
+        surat.classList.add("show");
+        setTimeout(() => {
+          surat.querySelector("img").style.animation = "pulse 1s infinite";
+        }, 300);
+      }
+
+      function tampilkanIsi() {
+        const isi = document.getElementById("isiSurat");
+        isi.style.display = "block";
+      }
+
+      // Fireworks setup
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+
+      function createFirework(x, y, color) {
+        for (let i = 0; i < 100; i++) {
+          particles.push({
+            x: x,
+            y: y,
+            angle: Math.random() * 2 * Math.PI,
+            speed: Math.random() * 7 + 2,
+            radius: Math.random() * 2 + 1,
+            color: color,
+            alpha: 1,
+          });
+        }
+      }
+
+      function updateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          let p = particles[i];
+          p.x += Math.cos(p.angle) * p.speed;
+          p.y += Math.sin(p.angle) * p.speed + 0.3;
+          p.alpha -= 0.015;
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+          } else {
+            ctx.beginPath();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+
+      function animate() {
+        updateParticles();
+        requestAnimationFrame(animate);
+      }
+
+      function launchRandomFireworks() {
+        for (let i = 0; i < 5; i++) {
+          const x = Math.random() * canvas.width;
+          const y = (Math.random() * canvas.height) / 2;
+          const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+          createFirework(x, y, color);
+        }
+      }
+
+      setInterval(launchRandomFireworks, 500);
+      animate();
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
